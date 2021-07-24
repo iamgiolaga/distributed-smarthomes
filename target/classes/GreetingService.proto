@@ -1,0 +1,30 @@
+syntax = "proto3";
+package grpc;
+
+// Request payload
+message HelloRequest {
+    // Each message attribute is strongly typed.
+    // You also must assign a "tag" number.
+    // Each tag number is unique within the message.
+    int32 id = 1;
+    int32 port = 2;
+    string ip = 3;
+
+    // There are many more basics types, like Enum, Map
+    // See https://developers.google.com/protocol-buffers/docs/proto3
+    // for more information.
+}
+
+message HelloResponse {
+    int32 id = 1;
+    int32 port = 2;
+    string ip = 3;
+}
+
+// Defining a Service, a Service can have multiple RPC operations
+service CommunicationService {
+
+    rpc contact(HelloRequest) returns (HelloResponse);
+
+    rpc streamContact(HelloRequest) returns (stream HelloResponse);
+}

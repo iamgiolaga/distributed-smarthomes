@@ -1,0 +1,61 @@
+syntax = "proto3";
+package grpc;
+
+message HelloRequest {
+    int32 id = 1;
+    int32 port = 2;
+    string ip = 3;
+}
+
+message HelloResponse {
+    int32 id = 1;
+    bool ack = 2;
+}
+
+message Exit {
+    int32 id = 1;
+}
+
+message Election {
+    int32 id = 1;
+    string status = 2;
+}
+
+message Elected {
+    int32 id = 1;
+    string status = 2;
+    bool ack = 3;
+}
+
+message Measurement {
+    double value = 1;
+    uint64 timestamp = 2;
+}
+
+message LocalStatsResponse {
+    bool ack = 1;
+}
+
+message BoostRequest {
+    int32 id = 1;
+    string resource = 2;
+    uint64 timestamp = 3;
+}
+
+message BoostResponse {
+    int32 id = 1;
+    bool ack = 2;
+}
+
+service CommunicationService {
+
+    rpc contact(HelloRequest) returns (HelloResponse); // registrazione delle case
+
+    rpc exit(Exit) returns (HelloResponse); // uscita delle case
+
+    rpc election(Election) returns (Elected); // elezione di un coordinatore
+
+    rpc localStat(Measurement) returns (LocalStatsResponse); // invio delle statistiche locali
+
+    rpc boost(BoostRequest) returns (BoostResponse); // richiesta di consumo extra
+}
